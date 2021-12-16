@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.scottwalter.itunesartsearch</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>013B70FC-FF21-48F4-9F9D-57357E6C5B7E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>B0816A35-505E-4A72-9C7A-5C4310D42F44</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>5A927895-2C75-4526-B826-1C79AB582927</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>B0816A35-505E-4A72-9C7A-5C4310D42F44</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>6C378F3B-27A7-456D-9E8B-C5EBD275EB62</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>B0816A35-505E-4A72-9C7A-5C4310D42F44</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Scott Walter</string>
+	<key>description</key>
+	<string>Search iTunes for Artwork</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>iTunes Artwork Search</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>artmovie</string>
+				<key>queuedelaycustom</key>
+				<integer>1</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Please Wait...</string>
+				<key>script</key>
+				<string>./artwork.php movie {query}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Enter A Title</string>
+				<key>title</key>
+				<string>iTunes Movie Artwork Search</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>6C378F3B-27A7-456D-9E8B-C5EBD275EB62</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>applescript</key>
+				<string>on alfred_script(q)
+	set urls to split(q, "|")
+	set browserBundlerId to getBrowserBundleId()
+
+	if browserBundlerId = "com.apple.safari" then 
+
+		tell application "Safari"
+			activate
+		    tell window 1
+    		    		set current tab to (make new tab with properties {URL:item 1 of urls})
+				set current tab to (make new tab with properties {URL:item 2 of urls})
+		    end tell
+		end tell
+	else
+		if browserBundlerId = "com.google.Chrome" then
+			tell application "Google Chrome"
+				 activate
+				 set myTab to make new tab at end of tabs of window 1
+				 set URL of myTab to item 1 of urls
+
+				 set myTab to make new tab at end of tabs of window 1
+				 set URL of myTab to item 2 of urls
+			end tell
+		else
+			display alert "Oops could not determine your browser " &amp; browserBundlerId
+		end if 
+	end if
+end alfred_script
+
+to split(someText, delimiter)
+   set AppleScript's text item delimiters to delimiter
+   set someText to someText's text items
+   set AppleScript's text item delimiters to {""} --&gt; restore delimiters to default value
+   return someText
+end split
+
+on getOSVersion()	return system version of (system info)end getOSVersionon getBrowserBundleId()	if getOSVersion() starts with "10.10" then		set browserBundleId to do shell script "/usr/libexec/PlistBuddy -c 'Print :LSHandlers' ~/Library/Preferences/com.apple.LaunchServices/com.apple.launchservices.secure.plist | grep 'LSHandlerURLScheme = http$' -C 2 | grep 'LSHandlerRoleAll = ' | cut -d '=' -f 2 | tr -d ' '"	else		set browserBundleId to do shell script "/usr/libexec/PlistBuddy -c 'Print :LSHandlers' ~/Library/Preferences/com.apple.LaunchServices.plist | grep 'LSHandlerURLScheme = http$' -C 2 | grep 'LSHandlerRoleAll = ' | cut -d '=' -f 2 | tr -d ' '"	end ifend getBrowserBundleId</string>
+				<key>cachescript</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.applescript</string>
+			<key>uid</key>
+			<string>221C52D8-AE19-4B7F-B04B-A0CF7C0E7C71</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>arttv</string>
+				<key>queuedelaycustom</key>
+				<integer>1</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Please Wait...</string>
+				<key>script</key>
+				<string>./artwork.php tvSeason {query}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Enter A Title</string>
+				<key>title</key>
+				<string>iTunes Television Artwork Search</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>5A927895-2C75-4526-B826-1C79AB582927</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>B0816A35-505E-4A72-9C7A-5C4310D42F44</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>artmusic</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Please Wait...</string>
+				<key>script</key>
+				<string>./artwork.php album {query}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string>artwork.php</string>
+				<key>subtext</key>
+				<string>Enter A Title</string>
+				<key>title</key>
+				<string>iTunes Music Artwork Search</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>013B70FC-FF21-48F4-9F9D-57357E6C5B7E</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>013B70FC-FF21-48F4-9F9D-57357E6C5B7E</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>300</integer>
+		</dict>
+		<key>221C52D8-AE19-4B7F-B04B-A0CF7C0E7C71</key>
+		<dict>
+			<key>xpos</key>
+			<integer>530</integer>
+			<key>ypos</key>
+			<integer>60</integer>
+		</dict>
+		<key>5A927895-2C75-4526-B826-1C79AB582927</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<real>180</real>
+		</dict>
+		<key>6C378F3B-27A7-456D-9E8B-C5EBD275EB62</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<real>60</real>
+		</dict>
+		<key>B0816A35-505E-4A72-9C7A-5C4310D42F44</key>
+		<dict>
+			<key>xpos</key>
+			<integer>530</integer>
+			<key>ypos</key>
+			<integer>180</integer>
+		</dict>
+	</dict>
+	<key>variables</key>
+	<dict>
+		<key>country</key>
+		<string>us</string>
+	</dict>
+	<key>version</key>
+	<string></string>
+	<key>webaddress</key>
+	<string>www.scottwalter.com</string>
+</dict>
+</plist>
