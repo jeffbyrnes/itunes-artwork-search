@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>com.scottwalter.itunesartsearch</string>
+	<string>com.jeffbyrnes.itunesartsearch</string>
 	<key>category</key>
 	<string>Tools</string>
 	<key>connections</key>
@@ -49,9 +49,9 @@
 		</array>
 	</dict>
 	<key>createdby</key>
-	<string>Scott Walter</string>
+	<string>Jeff Byrnes</string>
 	<key>description</key>
-	<string>Search iTunes for Artwork</string>
+	<string>Search iTunes Store for Artwork</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -63,6 +63,12 @@
 			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
@@ -78,9 +84,9 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>Please Wait...</string>
+				<string>Please Wait…</string>
 				<key>script</key>
-				<string>./artwork.php movie {query}</string>
+				<string>./artwork.rb movie {query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -99,64 +105,19 @@
 			<key>uid</key>
 			<string>6C378F3B-27A7-456D-9E8B-C5EBD275EB62</string>
 			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>applescript</key>
-				<string>on alfred_script(q)
-	set urls to split(q, "|")
-	set browserBundlerId to getBrowserBundleId()
-
-	if browserBundlerId = "com.apple.safari" then 
-
-		tell application "Safari"
-			activate
-		    tell window 1
-    		    		set current tab to (make new tab with properties {URL:item 1 of urls})
-				set current tab to (make new tab with properties {URL:item 2 of urls})
-		    end tell
-		end tell
-	else
-		if browserBundlerId = "com.google.Chrome" then
-			tell application "Google Chrome"
-				 activate
-				 set myTab to make new tab at end of tabs of window 1
-				 set URL of myTab to item 1 of urls
-
-				 set myTab to make new tab at end of tabs of window 1
-				 set URL of myTab to item 2 of urls
-			end tell
-		else
-			display alert "Oops could not determine your browser " &amp; browserBundlerId
-		end if 
-	end if
-end alfred_script
-
-to split(someText, delimiter)
-   set AppleScript's text item delimiters to delimiter
-   set someText to someText's text items
-   set AppleScript's text item delimiters to {""} --&gt; restore delimiters to default value
-   return someText
-end split
-
-on getOSVersion()	return system version of (system info)end getOSVersionon getBrowserBundleId()	if getOSVersion() starts with "10.10" then		set browserBundleId to do shell script "/usr/libexec/PlistBuddy -c 'Print :LSHandlers' ~/Library/Preferences/com.apple.LaunchServices/com.apple.launchservices.secure.plist | grep 'LSHandlerURLScheme = http$' -C 2 | grep 'LSHandlerRoleAll = ' | cut -d '=' -f 2 | tr -d ' '"	else		set browserBundleId to do shell script "/usr/libexec/PlistBuddy -c 'Print :LSHandlers' ~/Library/Preferences/com.apple.LaunchServices.plist | grep 'LSHandlerURLScheme = http$' -C 2 | grep 'LSHandlerRoleAll = ' | cut -d '=' -f 2 | tr -d ' '"	end ifend getBrowserBundleId</string>
-				<key>cachescript</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.applescript</string>
-			<key>uid</key>
-			<string>221C52D8-AE19-4B7F-B04B-A0CF7C0E7C71</string>
-			<key>version</key>
-			<integer>1</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
@@ -172,9 +133,9 @@ on getOSVersion()	return system version of (system info)end getOSVersionon g
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>Please Wait...</string>
+				<string>Please Wait…</string>
 				<key>script</key>
-				<string>./artwork.php tvSeason {query}</string>
+				<string>./artwork.rb tvSeason {query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -193,19 +154,21 @@ on getOSVersion()	return system version of (system info)end getOSVersionon g
 			<key>uid</key>
 			<string>5A927895-2C75-4526-B826-1C79AB582927</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
 				<key>browser</key>
 				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
 				<string>{query}</string>
-				<key>utf8</key>
-				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>
@@ -219,6 +182,12 @@ on getOSVersion()	return system version of (system info)end getOSVersionon g
 			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
@@ -234,9 +203,9 @@ on getOSVersion()	return system version of (system info)end getOSVersionon g
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>Please Wait...</string>
+				<string>Please Wait…</string>
 				<key>script</key>
-				<string>./artwork.php album {query}</string>
+				<string>./artwork.rb album {query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -255,57 +224,900 @@ on getOSVersion()	return system version of (system info)end getOSVersionon g
 			<key>uid</key>
 			<string>013B70FC-FF21-48F4-9F9D-57357E6C5B7E</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string># iTunes Artwork Search
+
+**This workflow _requires_ Alfred 5.**
+
+An Alfred 5 workflow for searching for music, TV, or movie cover artwork.
+
+Based on @scottfwalter’s [iTunes Artwork Search](https://www.alfredforum.com/topic/4701-get-itunes-artwork/), which in turn was based on @bendodson’s [iTunes Artwork Finder](https://github.com/bendodson/itunes-artwork-finder/).
+
+Rewritten in Ruby &amp; expanded &amp; updated for Alfred 5.
+
+## User Configuration
+
+You can choose from a list of countries to search that specific iTunes Store instance.
+
+## License
+
+																 Apache License
+													 Version 2.0, January 2004
+												http://www.apache.org/licenses/
+
+	 TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+	 1. Definitions.
+
+			"License" shall mean the terms and conditions for use, reproduction,
+			and distribution as defined by Sections 1 through 9 of this document.
+
+			"Licensor" shall mean the copyright owner or entity authorized by
+			the copyright owner that is granting the License.
+
+			"Legal Entity" shall mean the union of the acting entity and all
+			other entities that control, are controlled by, or are under common
+			control with that entity. For the purposes of this definition,
+			"control" means (i) the power, direct or indirect, to cause the
+			direction or management of such entity, whether by contract or
+			otherwise, or (ii) ownership of fifty percent (50%) or more of the
+			outstanding shares, or (iii) beneficial ownership of such entity.
+
+			"You" (or "Your") shall mean an individual or Legal Entity
+			exercising permissions granted by this License.
+
+			"Source" form shall mean the preferred form for making modifications,
+			including but not limited to software source code, documentation
+			source, and configuration files.
+
+			"Object" form shall mean any form resulting from mechanical
+			transformation or translation of a Source form, including but
+			not limited to compiled object code, generated documentation,
+			and conversions to other media types.
+
+			"Work" shall mean the work of authorship, whether in Source or
+			Object form, made available under the License, as indicated by a
+			copyright notice that is included in or attached to the work
+			(an example is provided in the Appendix below).
+
+			"Derivative Works" shall mean any work, whether in Source or Object
+			form, that is based on (or derived from) the Work and for which the
+			editorial revisions, annotations, elaborations, or other modifications
+			represent, as a whole, an original work of authorship. For the purposes
+			of this License, Derivative Works shall not include works that remain
+			separable from, or merely link (or bind by name) to the interfaces of,
+			the Work and Derivative Works thereof.
+
+			"Contribution" shall mean any work of authorship, including
+			the original version of the Work and any modifications or additions
+			to that Work or Derivative Works thereof, that is intentionally
+			submitted to Licensor for inclusion in the Work by the copyright owner
+			or by an individual or Legal Entity authorized to submit on behalf of
+			the copyright owner. For the purposes of this definition, "submitted"
+			means any form of electronic, verbal, or written communication sent
+			to the Licensor or its representatives, including but not limited to
+			communication on electronic mailing lists, source code control systems,
+			and issue tracking systems that are managed by, or on behalf of, the
+			Licensor for the purpose of discussing and improving the Work, but
+			excluding communication that is conspicuously marked or otherwise
+			designated in writing by the copyright owner as "Not a Contribution."
+
+			"Contributor" shall mean Licensor and any individual or Legal Entity
+			on behalf of whom a Contribution has been received by Licensor and
+			subsequently incorporated within the Work.
+
+	 2. Grant of Copyright License. Subject to the terms and conditions of
+			this License, each Contributor hereby grants to You a perpetual,
+			worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+			copyright license to reproduce, prepare Derivative Works of,
+			publicly display, publicly perform, sublicense, and distribute the
+			Work and such Derivative Works in Source or Object form.
+
+	 3. Grant of Patent License. Subject to the terms and conditions of
+			this License, each Contributor hereby grants to You a perpetual,
+			worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+			(except as stated in this section) patent license to make, have made,
+			use, offer to sell, sell, import, and otherwise transfer the Work,
+			where such license applies only to those patent claims licensable
+			by such Contributor that are necessarily infringed by their
+			Contribution(s) alone or by combination of their Contribution(s)
+			with the Work to which such Contribution(s) was submitted. If You
+			institute patent litigation against any entity (including a
+			cross-claim or counterclaim in a lawsuit) alleging that the Work
+			or a Contribution incorporated within the Work constitutes direct
+			or contributory patent infringement, then any patent licenses
+			granted to You under this License for that Work shall terminate
+			as of the date such litigation is filed.
+
+	 4. Redistribution. You may reproduce and distribute copies of the
+			Work or Derivative Works thereof in any medium, with or without
+			modifications, and in Source or Object form, provided that You
+			meet the following conditions:
+
+			(a) You must give any other recipients of the Work or
+					Derivative Works a copy of this License; and
+
+			(b) You must cause any modified files to carry prominent notices
+					stating that You changed the files; and
+
+			(c) You must retain, in the Source form of any Derivative Works
+					that You distribute, all copyright, patent, trademark, and
+					attribution notices from the Source form of the Work,
+					excluding those notices that do not pertain to any part of
+					the Derivative Works; and
+
+			(d) If the Work includes a "NOTICE" text file as part of its
+					distribution, then any Derivative Works that You distribute must
+					include a readable copy of the attribution notices contained
+					within such NOTICE file, excluding those notices that do not
+					pertain to any part of the Derivative Works, in at least one
+					of the following places: within a NOTICE text file distributed
+					as part of the Derivative Works; within the Source form or
+					documentation, if provided along with the Derivative Works; or,
+					within a display generated by the Derivative Works, if and
+					wherever such third-party notices normally appear. The contents
+					of the NOTICE file are for informational purposes only and
+					do not modify the License. You may add Your own attribution
+					notices within Derivative Works that You distribute, alongside
+					or as an addendum to the NOTICE text from the Work, provided
+					that such additional attribution notices cannot be construed
+					as modifying the License.
+
+			You may add Your own copyright statement to Your modifications and
+			may provide additional or different license terms and conditions
+			for use, reproduction, or distribution of Your modifications, or
+			for any such Derivative Works as a whole, provided Your use,
+			reproduction, and distribution of the Work otherwise complies with
+			the conditions stated in this License.
+
+	 5. Submission of Contributions. Unless You explicitly state otherwise,
+			any Contribution intentionally submitted for inclusion in the Work
+			by You to the Licensor shall be under the terms and conditions of
+			this License, without any additional terms or conditions.
+			Notwithstanding the above, nothing herein shall supersede or modify
+			the terms of any separate license agreement you may have executed
+			with Licensor regarding such Contributions.
+
+	 6. Trademarks. This License does not grant permission to use the trade
+			names, trademarks, service marks, or product names of the Licensor,
+			except as required for reasonable and customary use in describing the
+			origin of the Work and reproducing the content of the NOTICE file.
+
+	 7. Disclaimer of Warranty. Unless required by applicable law or
+			agreed to in writing, Licensor provides the Work (and each
+			Contributor provides its Contributions) on an "AS IS" BASIS,
+			WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+			implied, including, without limitation, any warranties or conditions
+			of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+			PARTICULAR PURPOSE. You are solely responsible for determining the
+			appropriateness of using or redistributing the Work and assume any
+			risks associated with Your exercise of permissions under this License.
+
+	 8. Limitation of Liability. In no event and under no legal theory,
+			whether in tort (including negligence), contract, or otherwise,
+			unless required by applicable law (such as deliberate and grossly
+			negligent acts) or agreed to in writing, shall any Contributor be
+			liable to You for damages, including any direct, indirect, special,
+			incidental, or consequential damages of any character arising as a
+			result of this License or out of the use or inability to use the
+			Work (including but not limited to damages for loss of goodwill,
+			work stoppage, computer failure or malfunction, or any and all
+			other commercial damages or losses), even if such Contributor
+			has been advised of the possibility of such damages.
+
+	 9. Accepting Warranty or Additional Liability. While redistributing
+			the Work or Derivative Works thereof, You may choose to offer,
+			and charge a fee for, acceptance of support, warranty, indemnity,
+			or other liability obligations and/or rights consistent with this
+			License. However, in accepting such obligations, You may act only
+			on Your own behalf and on Your sole responsibility, not on behalf
+			of any other Contributor, and only if You agree to indemnify,
+			defend, and hold each Contributor harmless for any liability
+			incurred by, or claims asserted against, such Contributor by reason
+			of your accepting any such warranty or additional liability.
+
+	 END OF TERMS AND CONDITIONS
+
+	 APPENDIX: How to apply the Apache License to your work.
+
+			To apply the Apache License to your work, attach the following
+			boilerplate notice, with the fields enclosed by brackets "[]"
+			replaced with your own identifying information. (Don't include
+			the brackets!)  The text should be enclosed in the appropriate
+			comment syntax for the file format. We also recommend that a
+			file or class name and description of purpose be included on the
+			same "printed page" as the copyright notice for easier
+			identification within third-party archives.
+
+	 Copyright [yyyy] [name of copyright owner]
+
+	 Licensed under the Apache License, Version 2.0 (the "License");
+	 you may not use this file except in compliance with the License.
+	 You may obtain a copy of the License at
+
+			 http://www.apache.org/licenses/LICENSE-2.0
+
+	 Unless required by applicable law or agreed to in writing, software
+	 distributed under the License is distributed on an "AS IS" BASIS,
+	 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 See the License for the specific language governing permissions and
+	 limitations under the License.</string>
 	<key>uidata</key>
 	<dict>
 		<key>013B70FC-FF21-48F4-9F9D-57357E6C5B7E</key>
 		<dict>
 			<key>xpos</key>
-			<integer>300</integer>
+			<real>300</real>
 			<key>ypos</key>
-			<integer>300</integer>
-		</dict>
-		<key>221C52D8-AE19-4B7F-B04B-A0CF7C0E7C71</key>
-		<dict>
-			<key>xpos</key>
-			<integer>530</integer>
-			<key>ypos</key>
-			<integer>60</integer>
+			<real>300</real>
 		</dict>
 		<key>5A927895-2C75-4526-B826-1C79AB582927</key>
 		<dict>
 			<key>xpos</key>
-			<integer>300</integer>
+			<real>300</real>
 			<key>ypos</key>
 			<real>180</real>
 		</dict>
 		<key>6C378F3B-27A7-456D-9E8B-C5EBD275EB62</key>
 		<dict>
 			<key>xpos</key>
-			<integer>300</integer>
+			<real>300</real>
 			<key>ypos</key>
 			<real>60</real>
 		</dict>
 		<key>B0816A35-505E-4A72-9C7A-5C4310D42F44</key>
 		<dict>
 			<key>xpos</key>
-			<integer>530</integer>
+			<real>530</real>
 			<key>ypos</key>
-			<integer>180</integer>
+			<real>180</real>
 		</dict>
 	</dict>
-	<key>variables</key>
-	<dict>
-		<key>country</key>
-		<string>us</string>
-	</dict>
+	<key>userconfigurationconfig</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>pairs</key>
+				<array>
+					<array>
+						<string>United States of America</string>
+						<string>us</string>
+					</array>
+					<array>
+						<string>Albania</string>
+						<string>al</string>
+					</array>
+					<array>
+						<string>Algeria</string>
+						<string>dz</string>
+					</array>
+					<array>
+						<string>Angola</string>
+						<string>ao</string>
+					</array>
+					<array>
+						<string>Anguilla</string>
+						<string>ai</string>
+					</array>
+					<array>
+						<string>Antigua and Barbuda</string>
+						<string>ag</string>
+					</array>
+					<array>
+						<string>Argentina</string>
+						<string>ar</string>
+					</array>
+					<array>
+						<string>Armenia</string>
+						<string>am</string>
+					</array>
+					<array>
+						<string>Australia</string>
+						<string>au</string>
+					</array>
+					<array>
+						<string>Austria</string>
+						<string>at</string>
+					</array>
+					<array>
+						<string>Azerbaijan</string>
+						<string>az</string>
+					</array>
+					<array>
+						<string>Bahamas</string>
+						<string>bs</string>
+					</array>
+					<array>
+						<string>Bahrain</string>
+						<string>bh</string>
+					</array>
+					<array>
+						<string>Barbados</string>
+						<string>bb</string>
+					</array>
+					<array>
+						<string>Belarus</string>
+						<string>by</string>
+					</array>
+					<array>
+						<string>Belgium</string>
+						<string>be</string>
+					</array>
+					<array>
+						<string>Belize</string>
+						<string>bz</string>
+					</array>
+					<array>
+						<string>Benin</string>
+						<string>bj</string>
+					</array>
+					<array>
+						<string>Bermuda</string>
+						<string>bm</string>
+					</array>
+					<array>
+						<string>Bhutan</string>
+						<string>bt</string>
+					</array>
+					<array>
+						<string>Bolivia</string>
+						<string>bo</string>
+					</array>
+					<array>
+						<string>Botswana</string>
+						<string>bw</string>
+					</array>
+					<array>
+						<string>Brazil</string>
+						<string>br</string>
+					</array>
+					<array>
+						<string>British Virgin Islands</string>
+						<string>vg</string>
+					</array>
+					<array>
+						<string>Brunei Darussalam</string>
+						<string>bn</string>
+					</array>
+					<array>
+						<string>Bulgaria</string>
+						<string>bg</string>
+					</array>
+					<array>
+						<string>Burkina-Faso</string>
+						<string>bf</string>
+					</array>
+					<array>
+						<string>Cambodia</string>
+						<string>kh</string>
+					</array>
+					<array>
+						<string>Canada</string>
+						<string>ca</string>
+					</array>
+					<array>
+						<string>Cape Verde</string>
+						<string>cv</string>
+					</array>
+					<array>
+						<string>Cayman Islands</string>
+						<string>ky</string>
+					</array>
+					<array>
+						<string>Chad</string>
+						<string>td</string>
+					</array>
+					<array>
+						<string>Chile</string>
+						<string>cl</string>
+					</array>
+					<array>
+						<string>China</string>
+						<string>cn</string>
+					</array>
+					<array>
+						<string>Colombia</string>
+						<string>co</string>
+					</array>
+					<array>
+						<string>Costa Rica</string>
+						<string>cr</string>
+					</array>
+					<array>
+						<string>Croatia</string>
+						<string>hr</string>
+					</array>
+					<array>
+						<string>Cyprus</string>
+						<string>cy</string>
+					</array>
+					<array>
+						<string>Czech Republic</string>
+						<string>cz</string>
+					</array>
+					<array>
+						<string>Democratic Republic of the Congo</string>
+						<string>cg</string>
+					</array>
+					<array>
+						<string>Denmark</string>
+						<string>dk</string>
+					</array>
+					<array>
+						<string>Dominica</string>
+						<string>dm</string>
+					</array>
+					<array>
+						<string>Dominican Republic</string>
+						<string>do</string>
+					</array>
+					<array>
+						<string>Ecuador</string>
+						<string>ec</string>
+					</array>
+					<array>
+						<string>Egypt</string>
+						<string>eg</string>
+					</array>
+					<array>
+						<string>El Salvador</string>
+						<string>sv</string>
+					</array>
+					<array>
+						<string>Estonia</string>
+						<string>ee</string>
+					</array>
+					<array>
+						<string>Federated States of Micronesia</string>
+						<string>fm</string>
+					</array>
+					<array>
+						<string>Fiji</string>
+						<string>fj</string>
+					</array>
+					<array>
+						<string>Finland</string>
+						<string>fi</string>
+					</array>
+					<array>
+						<string>France</string>
+						<string>fr</string>
+					</array>
+					<array>
+						<string>Gambia</string>
+						<string>gm</string>
+					</array>
+					<array>
+						<string>Germany</string>
+						<string>de</string>
+					</array>
+					<array>
+						<string>Ghana</string>
+						<string>gh</string>
+					</array>
+					<array>
+						<string>Greece</string>
+						<string>gr</string>
+					</array>
+					<array>
+						<string>Grenada</string>
+						<string>gd</string>
+					</array>
+					<array>
+						<string>Guatemala</string>
+						<string>gt</string>
+					</array>
+					<array>
+						<string>Guinea Bissau</string>
+						<string>gw</string>
+					</array>
+					<array>
+						<string>Guyana</string>
+						<string>gy</string>
+					</array>
+					<array>
+						<string>Honduras</string>
+						<string>hn</string>
+					</array>
+					<array>
+						<string>Hong Kong</string>
+						<string>hk</string>
+					</array>
+					<array>
+						<string>Hungary</string>
+						<string>hu</string>
+					</array>
+					<array>
+						<string>Iceland</string>
+						<string>is</string>
+					</array>
+					<array>
+						<string>India</string>
+						<string>in</string>
+					</array>
+					<array>
+						<string>Indonesia</string>
+						<string>id</string>
+					</array>
+					<array>
+						<string>Ireland</string>
+						<string>ie</string>
+					</array>
+					<array>
+						<string>Israel</string>
+						<string>il</string>
+					</array>
+					<array>
+						<string>Italy</string>
+						<string>it</string>
+					</array>
+					<array>
+						<string>Jamaica</string>
+						<string>jm</string>
+					</array>
+					<array>
+						<string>Japan</string>
+						<string>jp</string>
+					</array>
+					<array>
+						<string>Jordan</string>
+						<string>jo</string>
+					</array>
+					<array>
+						<string>Kazakhstan</string>
+						<string>kz</string>
+					</array>
+					<array>
+						<string>Kenya</string>
+						<string>ke</string>
+					</array>
+					<array>
+						<string>Krygyzstan</string>
+						<string>kg</string>
+					</array>
+					<array>
+						<string>Kuwait</string>
+						<string>kw</string>
+					</array>
+					<array>
+						<string>Laos</string>
+						<string>la</string>
+					</array>
+					<array>
+						<string>Latvia</string>
+						<string>lv</string>
+					</array>
+					<array>
+						<string>Lebanon</string>
+						<string>lb</string>
+					</array>
+					<array>
+						<string>Liberia</string>
+						<string>lr</string>
+					</array>
+					<array>
+						<string>Lithuania</string>
+						<string>lt</string>
+					</array>
+					<array>
+						<string>Luxembourg</string>
+						<string>lu</string>
+					</array>
+					<array>
+						<string>Macau</string>
+						<string>mo</string>
+					</array>
+					<array>
+						<string>Macedonia</string>
+						<string>mk</string>
+					</array>
+					<array>
+						<string>Madagascar</string>
+						<string>mg</string>
+					</array>
+					<array>
+						<string>Malawi</string>
+						<string>mw</string>
+					</array>
+					<array>
+						<string>Malaysia</string>
+						<string>my</string>
+					</array>
+					<array>
+						<string>Mali</string>
+						<string>ml</string>
+					</array>
+					<array>
+						<string>Malta</string>
+						<string>mt</string>
+					</array>
+					<array>
+						<string>Mauritania</string>
+						<string>mr</string>
+					</array>
+					<array>
+						<string>Mauritius</string>
+						<string>mu</string>
+					</array>
+					<array>
+						<string>Mexico</string>
+						<string>mx</string>
+					</array>
+					<array>
+						<string>Moldova</string>
+						<string>md</string>
+					</array>
+					<array>
+						<string>Mongolia</string>
+						<string>mn</string>
+					</array>
+					<array>
+						<string>Montserrat</string>
+						<string>ms</string>
+					</array>
+					<array>
+						<string>Mozambique</string>
+						<string>mz</string>
+					</array>
+					<array>
+						<string>Namibia</string>
+						<string>na</string>
+					</array>
+					<array>
+						<string>Nepal</string>
+						<string>np</string>
+					</array>
+					<array>
+						<string>Netherlands</string>
+						<string>nl</string>
+					</array>
+					<array>
+						<string>New Zealand</string>
+						<string>nz</string>
+					</array>
+					<array>
+						<string>Nicaragua</string>
+						<string>ni</string>
+					</array>
+					<array>
+						<string>Niger</string>
+						<string>ne</string>
+					</array>
+					<array>
+						<string>Nigeria</string>
+						<string>ng</string>
+					</array>
+					<array>
+						<string>Norway</string>
+						<string>no</string>
+					</array>
+					<array>
+						<string>Oman</string>
+						<string>om</string>
+					</array>
+					<array>
+						<string>Pakistan</string>
+						<string>pk</string>
+					</array>
+					<array>
+						<string>Palau</string>
+						<string>pw</string>
+					</array>
+					<array>
+						<string>Panama</string>
+						<string>pa</string>
+					</array>
+					<array>
+						<string>Papua New Guinea</string>
+						<string>pg</string>
+					</array>
+					<array>
+						<string>Paraguay</string>
+						<string>py</string>
+					</array>
+					<array>
+						<string>Peru</string>
+						<string>pe</string>
+					</array>
+					<array>
+						<string>Philippines</string>
+						<string>ph</string>
+					</array>
+					<array>
+						<string>Poland</string>
+						<string>pl</string>
+					</array>
+					<array>
+						<string>Portugal</string>
+						<string>pt</string>
+					</array>
+					<array>
+						<string>Qatar</string>
+						<string>qa</string>
+					</array>
+					<array>
+						<string>Republic of Trinidad and Tobago</string>
+						<string>tt</string>
+					</array>
+					<array>
+						<string>Romania</string>
+						<string>ro</string>
+					</array>
+					<array>
+						<string>Russia</string>
+						<string>ru</string>
+					</array>
+					<array>
+						<string>Saint Kitts and Nevis</string>
+						<string>kn</string>
+					</array>
+					<array>
+						<string>Saint Lucia</string>
+						<string>lc</string>
+					</array>
+					<array>
+						<string>Saint Vincent and the Grenadines</string>
+						<string>vc</string>
+					</array>
+					<array>
+						<string>Sao Tome e Principe</string>
+						<string>st</string>
+					</array>
+					<array>
+						<string>Saudi Arabia</string>
+						<string>sa</string>
+					</array>
+					<array>
+						<string>Senegal</string>
+						<string>sn</string>
+					</array>
+					<array>
+						<string>Seychelles</string>
+						<string>sc</string>
+					</array>
+					<array>
+						<string>Sierra Leone</string>
+						<string>sl</string>
+					</array>
+					<array>
+						<string>Singapore</string>
+						<string>sg</string>
+					</array>
+					<array>
+						<string>Slovakia</string>
+						<string>sk</string>
+					</array>
+					<array>
+						<string>Slovenia</string>
+						<string>si</string>
+					</array>
+					<array>
+						<string>Soloman Islands</string>
+						<string>sb</string>
+					</array>
+					<array>
+						<string>South Africa</string>
+						<string>za</string>
+					</array>
+					<array>
+						<string>South Korea</string>
+						<string>kr</string>
+					</array>
+					<array>
+						<string>Spain</string>
+						<string>es</string>
+					</array>
+					<array>
+						<string>Sri Lanka</string>
+						<string>lk</string>
+					</array>
+					<array>
+						<string>Suriname</string>
+						<string>sr</string>
+					</array>
+					<array>
+						<string>Swaziland</string>
+						<string>sz</string>
+					</array>
+					<array>
+						<string>Sweden</string>
+						<string>se</string>
+					</array>
+					<array>
+						<string>Switzerland</string>
+						<string>ch</string>
+					</array>
+					<array>
+						<string>Taiwan</string>
+						<string>tw</string>
+					</array>
+					<array>
+						<string>Tajikistan</string>
+						<string>tj</string>
+					</array>
+					<array>
+						<string>Tanzania</string>
+						<string>tz</string>
+					</array>
+					<array>
+						<string>Thailand</string>
+						<string>th</string>
+					</array>
+					<array>
+						<string>Tunisia</string>
+						<string>tn</string>
+					</array>
+					<array>
+						<string>Turkey</string>
+						<string>tr</string>
+					</array>
+					<array>
+						<string>Turkmenistan</string>
+						<string>tm</string>
+					</array>
+					<array>
+						<string>Turks and Caicos Islands</string>
+						<string>tc</string>
+					</array>
+					<array>
+						<string>Uganda</string>
+						<string>ug</string>
+					</array>
+					<array>
+						<string>Ukraine</string>
+						<string>ua</string>
+					</array>
+					<array>
+						<string>United Arab Emirates</string>
+						<string>ae</string>
+					</array>
+					<array>
+						<string>United Kingdom</string>
+						<string>gb</string>
+					</array>
+					<array>
+						<string>Uruguay</string>
+						<string>uy</string>
+					</array>
+					<array>
+						<string>Uzbekistan</string>
+						<string>uz</string>
+					</array>
+					<array>
+						<string>Venezuela</string>
+						<string>ve</string>
+					</array>
+					<array>
+						<string>Vietnam</string>
+						<string>vn</string>
+					</array>
+					<array>
+						<string>Yemen</string>
+						<string>ye</string>
+					</array>
+					<array>
+						<string>Zimbabwe</string>
+						<string>zw</string>
+					</array>
+				</array>
+			</dict>
+			<key>description</key>
+			<string>Choose a country’s iTunes Store to search</string>
+			<key>label</key>
+			<string>Country</string>
+			<key>type</key>
+			<string>popupbutton</string>
+			<key>variable</key>
+			<string>country</string>
+		</dict>
+	</array>
 	<key>version</key>
-	<string></string>
+	<string>1.0.0</string>
 	<key>webaddress</key>
-	<string>www.scottwalter.com</string>
+	<string>https://github.com/jeffbyrnes/itunes-artwork-search</string>
 </dict>
 </plist>
